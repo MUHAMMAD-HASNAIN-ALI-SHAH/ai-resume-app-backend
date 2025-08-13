@@ -67,4 +67,29 @@ const getMyResumesById = async (req, res) => {
   }
 };
 
-module.exports = { CreateResume, getMyResumes, getMyResumesById };
+const deleteResumeById = async (req, res) => {
+  try {
+    const { resumeId } = req.params;
+    const { email } = req.session.user;
+    if (!email) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const result = await Resume.deleteOne({ _id: resumeId, userEmail: email });
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Resume not found" });
+    }
+
+    return res.status(200).json({ message: "Resume deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting resume:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+module.exports = {
+  CreateResume,
+  getMyResumes,
+  getMyResumesById,
+  deleteResumeById,
+};
