@@ -38,6 +38,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/auth", require("./routes/user.route"));
+app.use("/api/v2/create-resume", require("./routes/create.resume.route"));
 
 const port = process.env.PORT || 8080;
 

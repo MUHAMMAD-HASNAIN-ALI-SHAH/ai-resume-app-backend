@@ -63,7 +63,6 @@ const googleCallback = async (req, res) => {
     req.session.user = {
       username: user.username,
       email: user.email,
-      picture: user.picture,
     };
 
     res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
@@ -75,10 +74,10 @@ const googleCallback = async (req, res) => {
 
 const verifyUser = (req, res) => {
   try {
+    console.log(req.session.user);
     if (req.session.user) {
       return res.status(200).json({ user: req.session.user });
     }
-    console.log("User not authenticated");
     return res.status(401).json({ message: "Not authenticated" });
   } catch (error) {
     console.error("Verification Error", error);
