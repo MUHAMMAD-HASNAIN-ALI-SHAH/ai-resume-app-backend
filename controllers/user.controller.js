@@ -65,7 +65,9 @@ const googleCallback = async (req, res) => {
       email: user.email,
     };
 
-    res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
+    req.session.save(() => {
+      res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
+    });
   } catch (err) {
     console.error("OAuth Error", err.response?.data || err.message);
     res.status(500).send("Authentication failed");
